@@ -167,8 +167,6 @@ The expected size is:
 536870912 bytes
 ```
 
-Do **not** format the file in Windows.
-
 Copy `armblk0.img` to:
 
 ```text
@@ -211,20 +209,16 @@ The release contains the tested components, including:
 * ARM64 Linux kernel
 * Alpine initramfs
 * device tree
-* Fitz Linux components
+* Miami Deluxe configuration file
 
-The supplied build is based on Emu68 commit:
-
-```text
-9b4379a
-```
+The supplied build is based on Emu68 commit 9b4379a
 
 ## 2. Create armblk0.img
 
 From Windows PowerShell:
 
 ```powershell
-$size = 512MB
+$size = 256MB
 $fs = [System.IO.File]::Create("armblk0.img")
 $fs.SetLength($size)
 $fs.Close()
@@ -392,6 +386,3 @@ Do not assume compatibility with arbitrary Emu68 versions.
 
 ---
 
-# sidecARM
-
-**Linux beside the Amiga, not instead of it.**
