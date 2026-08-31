@@ -45,6 +45,16 @@ On AmigaOS, ARMNET appears as `armnet.device`.
 
 On Linux, it appears as `arm0`.
 
+To make Windows reach sidecARM Linux through the Amiga, add a persistent route for the ARMNET subnet:
+
+```powershell
+route -p add 10.68.0.0 mask 255.255.255.252 <AMIGA_LAN_IP>
+```
+
+Replace `<AMIGA_LAN_IP>` with the Amiga's 3Com/Miami address on your normal LAN.
+
+Then use Putty (telnet) to connect to the SidecARM!
+
 ---
 
 # Current Amiga networking
