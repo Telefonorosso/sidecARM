@@ -1,10 +1,6 @@
 # sidecARM
 ARM64 Linux running alongside AmigaOS on Emu68/PiStorm
 
-# sidecARM
-
-**ARM64 Linux running alongside AmigaOS on Emu68/PiStorm**
-
 sidecARM is an experimental ARM64 Linux service environment that runs alongside AmigaOS on Emu68/PiStorm.
 
 AmigaOS remains the primary operating system. Linux runs on an otherwise unused ARM core and acts as a modern service processor.
@@ -265,7 +261,7 @@ AmigaOS should start normally.
 Open an AmigaShell and run:
 
 ```text
-Linux
+Linux linux-arm64.img sidecarm.dtb alpine.cpio.gz armblk0.img
 ```
 
 The launcher loads the ARM64 kernel, initramfs and device tree and starts Linux on physical ARM CPU1.
@@ -298,6 +294,8 @@ From Linux:
 ```bash
 ping 10.68.0.1
 ```
+
+(armnet.miami is included)
 
 The 3Com EtherLink III remains the normal AmigaOS LAN/Internet interface.
 
