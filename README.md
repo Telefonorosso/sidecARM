@@ -306,7 +306,7 @@ Once sidecARM is running, Linux should expose:
 For a brand-new image, format it once:
 
 ```bash
-mkfs.ext2 -E nodiscard -O ^inline_data /dev/armblk0
+mkfs.ext2 /dev/armblk0
 ```
 
 Create the mount point:
