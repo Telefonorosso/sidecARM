@@ -55,6 +55,12 @@ Replace `<AMIGA_LAN_IP>` with the Amiga's 3Com/Miami address on your normal LAN.
 
 Then use Putty (telnet) to connect to the SidecARM!
 
+Before `armnet` is configured, AmigaOS utility **ArmTerm** provides a simple local test console between AmigaOS and the ARM64 Linux service through shared memory.
+Run `ArmTerm` from AmigaOS after starting Linux to obtain an interactive Linux shell without requiring any network setup.
+It is useful for initial bring-up, checking `dmesg`, testing the filesystem, and diagnosing `armnet` before TCP/IP is available.
+Once `armnet` is working, normal network shells such as Telnet can be used instead.
+
+
 ---
 
 # Current Amiga networking
