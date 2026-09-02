@@ -200,25 +200,13 @@ Once ARMNET is working, Linux can be accessed remotely.
 
 ## SSH
 
-SSH is available on the standard port:
-
-```text
-22
-```
-
-Root login is enabled.
+SSH is available on the standard port 22, root login is enabled.
 
 Default credentials:
 
 ```text
 user: root
 password: alpine
-```
-
-For example:
-
-```sh
-ssh root@10.68.0.2
 ```
 
 ## Telnet
@@ -245,23 +233,7 @@ Replace:
 
 with the normal LAN address of the Amiga.
 
-Linux can then be reached directly at:
-
-```text
-10.68.0.2
-```
-
-For example:
-
-```sh
-ssh root@10.68.0.2
-```
-
-using password:
-
-```text
-alpine
-```
+Linux can then be reached directly at 10.68.0.2 with Putty (ssh or telnet).
 
 ---
 
@@ -315,6 +287,7 @@ The repository contains the files required for the tested proof of concept, incl
 - sidecARM-enabled `Emu68.img`
 - AmigaOS `Linux` launcher
 - `ArmTerm`
+- `armnet.device`
 - ARM64 Linux kernel
 - device tree
 - Alpine boot environment
