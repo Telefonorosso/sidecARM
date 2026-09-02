@@ -1,0 +1,6 @@
+config ARMNET
+	tristate "PiStorm/Emu68 ARM-Amiga shared-RAM Ethernet"
+	depends on OF
+	help
+	  Normal Ethernet interface arm0 backed by shared service RAM.
+	  It exchanges Ethernet frames with AmigaOS armnet.device.
