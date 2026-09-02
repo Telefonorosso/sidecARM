@@ -1,75 +1,150 @@
 # sidecARM
-ARM64 Linux running alongside AmigaOS on Emu68/PiStorm
 
-sidecARM is an experimental ARM64 Linux service environment that runs alongside AmigaOS on Emu68/PiStorm.
+ARM64 Linux running alongside AmigaOS on Emu68/PiStorm.
 
-AmigaOS remains the primary operating system. Linux runs on an otherwise unused ARM core and acts as a modern service processor.
+sidecARM is an experimental ARM64 Linux service environment running concurrently with AmigaOS.
 
-The current proof of concept provides:
+AmigaOS remains the primary operating system under Emu68, while Linux runs on another ARM core and provides a modern Linux environment, networking, storage and services.
 
-* ARM64 Alpine Linux running concurrently with AmigaOS
-* Linux on physical Cortex-A53 CPU1
-* shared-memory networking through ARMNET
-* Miami/MiamiDX connectivity
-* Linux package management and normal Alpine tools
-* read/write access to real AmigaOS files through Fitz
-* persistent Linux storage through `/dev/armblk0`
-
-The current tested Emu68 baseline is:
+Current tested Emu68 baseline:
 
 ```text
 9b4379a
 ```
 
+## Current proof of concept
+
+The current sidecARM POC provides:
+
+- ARM64 Alpine Linux running alongside AmigaOS
+- Linux running on physical Cortex-A53 CPU1
+- a real Linux root filesystem on `/dev/armblk0`
+- shared-memory networking through ARMNET
+- MiamiDX integration
+- ArmTerm local console
+- normal Alpine package management
+- Telnet access over ARMNET
+- SSH access over ARMNET
+- read/write access to AmigaOS files through Fitz
+
+The current target platform is:
+
+- PiStorm Classic
+- Raspberry Pi 3A+
+- AmigaOS 3.x
+- Emu68
+- MiamiDX
+
 ---
 
-# How it works
-
-sidecARM keeps AmigaOS and Linux deliberately separate.
+# Architecture
 
 AmigaOS continues running normally under Emu68.
 
-Linux runs on CPU1 with its own reserved RAM.
+Linux runs independently on ARM CPU1 using reserved RAM.
 
-Communication between them uses ARMNET, a shared-memory network interface.
+The two environments communicate through dedicated sidecARM interfaces.
 
-The default private network is:
+For networking:
 
 ```text
-AmigaOS: 10.68.0.1
-Linux:   10.68.0.2
-Netmask: 255.255.255.252
+AmigaOS                  Linux
+
+armnet.device  <------>  arm0
+10.68.0.1                10.68.0.2
 ```
 
-On AmigaOS, ARMNET appears as `armnet.device`.
+Netmask:
 
-On Linux, it appears as `arm0`.
-
-To make Windows reach sidecARM Linux through the Amiga, add a persistent route for the ARMNET subnet:
-
-```powershell
-route -p add 10.68.0.0 mask 255.255.255.252 <AMIGA_LAN_IP>
+```text
+255.255.255.252
 ```
 
-Replace `<AMIGA_LAN_IP>` with the Amiga's 3Com/Miami address on your normal LAN.
-
-Then use Putty (telnet) to connect to the SidecARM!
-
-Before `armnet` is configured, AmigaOS utility **ArmTerm** provides a simple local test console between AmigaOS and the ARM64 Linux service through shared memory.
-Run `ArmTerm` from AmigaOS after starting Linux to obtain an interactive Linux shell without requiring any network setup.
-It is useful for initial bring-up, checking `dmesg`, testing the filesystem, and diagnosing `armnet` before TCP/IP is available.
-Once `armnet` is working, normal network shells such as Telnet can be used instead.
-
+Linux uses `/dev/armblk0` as its system disk.
 
 ---
 
-# Current Amiga networking
+# Linux system disk: /dev/armblk0
 
-The current test system uses **Miami/MiamiDX with a 3Com EtherLink III PCMCIA card** for normal AmigaOS LAN and Internet connectivity.
+`/dev/armblk0` is now the main Linux system disk.
 
-ARMNET is a second, private interface used only for communication with sidecARM Linux.
+It contains the Alpine Linux root filesystem, including normal persistent Linux directories such as:
 
-So today:
+```text
+/etc
+/root
+/usr
+/var
+```
+
+This means that installed packages, configuration files and normal filesystem changes survive a reboot.
+
+A prepared `armblk0.img` is supplied with sidecARM in ZIP format.
+
+There is therefore **no need to create or format the Linux system disk manually**.
+
+Extract the supplied archive and copy `armblk0.img` to the `EMU68BOOT` partition.
+
+`EMU68BOOT` is used because it is directly accessible from Windows and is the natural location for the sidecARM boot files.
+
+---
+
+# First test: ArmTerm
+
+**ArmTerm should be the first test performed after starting Linux.**
+
+Start Linux from AmigaOS, then wait approximately:
+
+```text
+15-20 seconds
+```
+
+before launching:
+
+```text
+ArmTerm
+```
+
+ArmTerm provides a direct interactive Linux console through shared memory and does **not** require ARMNET or MiamiDX networking.
+
+If the Linux shell appears, the essential sidecARM boot path is working:
+
+```text
+Emu68
+  -> CPU1
+  -> ARM64 Linux
+  -> /dev/armblk0 root filesystem
+  -> Linux userspace
+  -> ArmTerm
+```
+
+Useful first commands are:
+
+```sh
+uname -a
+df -h
+mount
+ip addr
+dmesg | tail
+```
+
+Only after ArmTerm has been validated should ARMNET and MiamiDX networking be tested.
+
+---
+
+# AmigaOS networking
+
+sidecARM requires **MiamiDX**.
+
+The standard Miami version is not sufficient for the intended configuration because sidecARM relies on MiamiDX support for:
+
+- multiple simultaneous network interfaces
+- IP routing
+- IP-NAT
+
+The current development system uses a 3Com EtherLink III PCMCIA adapter for the normal AmigaOS LAN connection.
+
+ARMNET is an additional private interface dedicated to communication between AmigaOS and sidecARM Linux.
 
 ```text
 3Com EtherLink III
@@ -79,221 +154,33 @@ armnet.device
     AmigaOS <-> Linux
 ```
 
-A future experiment may move the Raspberry Pi Wi-Fi interface to Linux and use Linux as the router/NAT gateway for AmigaOS.
-
-That is not part of the current release.
-
----
-
-# Accessing AmigaOS files
-
-sidecARM uses **Fitz** for access to real AmigaOS files and directories.
-
-Start a Fitz server on AmigaOS, for example:
+The ARMNET addresses are:
 
 ```text
-fitz serve Work:
-```
-
-Then mount it from Linux:
-
-```bash
-fitz-mount 10.68.0.1 /amiga
-```
-
-The AmigaOS files are now visible under:
-
-```text
-/amiga
-```
-
-Normal Linux tools can operate directly on them:
-
-```bash
-ls /amiga
-nano /amiga/test.txt
-cp file /amiga/
-mkdir /amiga/testdir
-```
-
-Read/write, rename, directory creation, deletion and SHA256 verification have all been tested.
-
-Fitz remains the intended solution for real AmigaOS filesystem access.
-
----
-
-# Persistent Linux storage
-
-Private Linux state uses a separate mechanism.
-
-The AmigaOS-hosted file:
-
-```text
-armblk0.img
-```
-
-is exposed directly to Linux as:
-
-```text
-/dev/armblk0
-```
-
-Linux can place an ext2 filesystem on `/dev/armblk0` and use it for persistent packages, configuration and application data.
-
-This is deliberately separate from Fitz:
-
-```text
-Fitz
-    real AmigaOS files
-
-/dev/armblk0
-    private Linux persistent storage
-```
-
-This avoids using FUSE, TCP or a loop device for Linux persistence.
-
-The underlying image remains an ordinary file stored on the Amiga-accessible boot partition.
-
----
-
-# Creating armblk0.img
-
-The easiest way is from Windows PowerShell.
-
-Open PowerShell in any convenient directory.
-
-For a 512 MB image:
-
-```powershell
-$size = 512MB
-$fs = [System.IO.File]::Create("armblk0.img")
-$fs.SetLength($size)
-$fs.Close()
-```
-
-Verify it:
-
-```powershell
-Get-Item .\armblk0.img | Select-Object Name,Length
-```
-
-The expected size is:
-
-```text
-536870912 bytes
-```
-
-Copy `armblk0.img` to:
-
-```text
-EMU68BOOT
-```
-
-`EMU68BOOT` is the recommended location because it is the Emu68 boot partition and is easily accessible from Windows.
-
-Linux will see the image through the sidecARM block transport as:
-
-```text
-/dev/armblk0
+AmigaOS: 10.68.0.1
+Linux:   10.68.0.2
+Netmask: 255.255.255.252
 ```
 
 ---
 
-# Quick install
+# Ready-to-use MiamiDX configuration
 
-Everything required for the tested proof of concept is supplied with the release.
-
-There is no need to compile Linux or rebuild the environment manually.
-
-Current target:
-
-* PiStorm Classic
-* Raspberry Pi 3A+
-* AmigaOS 3.x
-* Emu68
-* Miami or MiamiDX
-
-## 1. Copy the supplied files
-
-Copy the supplied sidecARM files to their documented locations.
-
-The release contains the tested components, including:
-
-* sidecARM-enabled Emu68
-* AmigaOS `Linux` launcher
-* `armnet.device`
-* ARM64 Linux kernel
-* Alpine initramfs
-* device tree
-* Miami Deluxe configuration file
-
-The supplied build is based on Emu68 commit 9b4379a
-
-## 2. Create armblk0.img
-
-From Windows PowerShell:
-
-```powershell
-$size = 256MB
-$fs = [System.IO.File]::Create("armblk0.img")
-$fs.SetLength($size)
-$fs.Close()
-```
-
-Copy:
+The repository includes a modified:
 
 ```text
-armblk0.img
+WIFIPI.default.miami
 ```
 
-to:
+configuration compatible with sidecARM.
 
-```text
-EMU68BOOT
-```
+It is based on the normal PiStorm MiamiDX configuration and already contains the changes required for ARMNET.
 
-## 3. Put the Linux payload on EMU68BOOT
+This is the recommended starting point instead of manually recreating the complete MiamiDX configuration.
 
-Place the supplied Linux payload files on `EMU68BOOT` as instructed by the release.
+The normal PiStorm/Amiga network interface remains active while `armnet.device` provides the private sidecARM link.
 
-Using the boot partition is recommended because it is easy to update directly from Windows.
-
-Previous testing also showed substantially better Linux-file loading performance from the SD boot area than from `SDH0:`.
-
-## 4. Boot AmigaOS
-
-Boot normally using the supplied sidecARM-enabled Emu68.
-
-AmigaOS should start normally.
-
-## 5. Start Linux
-
-Open an AmigaShell and run:
-
-```text
-Linux linux-arm64.img sidecarm.dtb alpine.cpio.gz armblk0.img
-```
-
-The launcher loads the ARM64 kernel, initramfs and device tree and starts Linux on physical ARM CPU1.
-
-AmigaOS remains active.
-
-## 6. Configure ARMNET
-
-In Miami/MiamiDX, add `armnet.device` with:
-
-```text
-IP address: 10.68.0.1
-Netmask:    255.255.255.252
-```
-
-Linux uses:
-
-```text
-10.68.0.2/30
-```
-
-Test from AmigaOS:
+After Linux has booted and ArmTerm has been successfully tested, ARMNET can be checked from AmigaOS with:
 
 ```text
 ping 10.68.0.2
@@ -301,86 +188,176 @@ ping 10.68.0.2
 
 From Linux:
 
-```bash
+```sh
 ping 10.68.0.1
 ```
 
-(armnet.miami is included)
+---
 
-The 3Com EtherLink III remains the normal AmigaOS LAN/Internet interface.
+# Remote Linux access
+
+Once ARMNET is working, Linux can be accessed remotely.
+
+## SSH
+
+SSH is available on the standard port:
+
+```text
+22
+```
+
+Root login is enabled.
+
+Default credentials:
+
+```text
+user: root
+password: alpine
+```
+
+For example:
+
+```sh
+ssh root@10.68.0.2
+```
+
+## Telnet
+
+Telnet access is also available for testing and compatibility with AmigaOS terminal software.
 
 ---
 
-# Using /dev/armblk0
+# Accessing Linux from another computer
 
-Once sidecARM is running, Linux should expose:
+The Amiga can act as the route toward the private sidecARM subnet.
+
+For example, on Windows a persistent route can be added with:
+
+```cmd
+route -p add 10.68.0.0 mask 255.255.255.252 <AMIGA_LAN_IP>
+```
+
+Replace:
+
+```text
+<AMIGA_LAN_IP>
+```
+
+with the normal LAN address of the Amiga.
+
+Linux can then be reached directly at:
+
+```text
+10.68.0.2
+```
+
+For example:
+
+```sh
+ssh root@10.68.0.2
+```
+
+using password:
+
+```text
+alpine
+```
+
+---
+
+# Accessing AmigaOS files from Linux
+
+sidecARM uses Fitz when Linux needs access to real AmigaOS files and directories.
+
+For example, start a Fitz server on AmigaOS:
+
+```text
+fitz serve Work:
+```
+
+Then from Linux:
+
+```sh
+fitz-mount 10.68.0.1 /mnt/amiga
+```
+
+The AmigaOS filesystem becomes available under:
+
+```text
+/mnt/amiga
+```
+
+Normal Linux commands can then operate on AmigaOS files:
+
+```sh
+ls /mnt/amiga
+nano /mnt/amiga/test.txt
+cp file /mnt/amiga/
+mkdir /mnt/amiga/testdir
+```
+
+Fitz and `/dev/armblk0` have different purposes:
 
 ```text
 /dev/armblk0
+    Linux system disk
+
+Fitz
+    access to real AmigaOS files
 ```
-
-For a brand-new image, format it once:
-
-```bash
-mkfs.ext2 /dev/armblk0
-```
-
-Create the mount point:
-
-```bash
-mkdir -p /persist
-```
-
-Mount it:
-
-```bash
-mount /dev/armblk0 /persist
-```
-
-Test persistence:
-
-```bash
-echo "sidecARM persistent storage" > /persist/test.txt
-sync
-cat /persist/test.txt
-```
-
-The goal is for `/persist` to hold Linux packages, configuration and service data independently of the immutable Alpine initramfs.
 
 ---
 
-# Performance
+# Supplied files
 
-Current Fitz measurements are approximately:
+The repository contains the files required for the tested proof of concept, including:
+
+- sidecARM-enabled `Emu68.img`
+- AmigaOS `Linux` launcher
+- `ArmTerm`
+- ARM64 Linux kernel
+- device tree
+- Alpine boot environment
+- prepared `/dev/armblk0` Linux system disk in ZIP format
+- ARMNET support
+- modified `WIFIPI.default.miami` configuration
+
+The supplied Emu68 build is based on:
 
 ```text
-Direct Fitz I/O:      600–680 KB/s
-ext2 cold reads:      ~500 KB/s
+9b4379a
 ```
 
-Small-file testing has also been successful, including hundreds of file creations and renames.
-
-Storage location matters significantly.
-
-In previous tests, Linux payload loading from the SD boot partition was approximately twice as fast as loading the same files from `SDH0:`.
-
-This is one reason `EMU68BOOT` is the preferred location for sidecARM payloads and `armblk0.img`.
+Do not assume that the current sidecARM modifications can be applied unchanged to arbitrary Emu68 versions.
 
 ---
 
-# Roadmap
+# Step by step installation
 
-Current areas of development include:
+**TODO — STEP BY STEP INSTALLATION**
 
-* `/dev/armblk0` optimization
-* transparent persistent Alpine state
-* persistent root overlay
-* clean filesystem flush and shutdown
-* automatic alongside boot
-* moving Raspberry Pi Wi-Fi to Linux
-* Linux routing/NAT for AmigaOS
-* reduced startup latency
-* modern Linux services callable from Amiga applications
+This section will contain the complete installation procedure from a standard PiStorm/Emu68 setup to the first successful sidecARM boot.
+
+---
+
+# Recommended validation order
+
+For the current POC, test components in this order:
+
+```text
+1. Boot AmigaOS with the supplied Emu68
+2. Start Linux
+3. Wait 15-20 seconds
+4. Run ArmTerm
+5. Verify the Linux shell
+6. Verify /dev/armblk0
+7. Load/use the supplied WIFIPI.default.miami configuration
+8. Test ARMNET
+9. Test SSH
+10. Test Fitz
+```
+
+ArmTerm deliberately comes before networking: it provides the simplest possible proof that Linux itself has booted correctly.
 
 ---
 
@@ -388,17 +365,14 @@ Current areas of development include:
 
 sidecARM is experimental software.
 
-It modifies low-level Emu68 behavior, ARM CPU startup, memory allocation and communication between AmigaOS and Linux.
+It modifies low-level Emu68 behaviour, ARM CPU startup, reserved memory and communication between AmigaOS and ARM64 Linux.
 
-Use backups.
+The current release specifically targets the tested PiStorm Classic + Raspberry Pi 3A+ configuration.
 
-The supplied build currently targets:
+Keep backups of important AmigaOS data.
+
+Current Emu68 reference baseline:
 
 ```text
-Emu68 commit 9b4379a
+9b4379a
 ```
-
-Do not assume compatibility with arbitrary Emu68 versions.
-
----
-
