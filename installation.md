@@ -1,3 +1,11 @@
+## PRERQUISITES
+
+* Pistorm CLASSIC (Amiga 600 or 1200)
+* Raspberry Pi3A+
+* AmigaOS 3.1
+* MiamiDX 
+
+
 ## Step-by-step installation
 
 * Download the sidecARM 1.2 release package:
