@@ -36,7 +36,7 @@ https://github.com/Telefonorosso/sidecARM/releases/download/1.2/sidecARM1.2.zip
 
 * **Make a backup copy of the Emu68 kernel image currently used by your system!**
 
-* Replace it with the supplied `Emu68.img.gz`, or modify `config.txt` so that Emu68 points to the supplied kernel image.
+* Replace it with the supplied `Emu68.img.gz`, or modify `config.txt` so that Emu68 points it.
 
 * Safely eject the SD card from Windows.
 
@@ -46,13 +46,13 @@ https://github.com/Telefonorosso/sidecARM/releases/download/1.2/sidecARM1.2.zip
   `DEVS:Networks/`
 
 * **Make a backup copy of:
-  `Miami:WIFIPI.default`**
+  `Miami:WIFIPI.default`!**
 
-* Replace it with the sidecARM version supplied in the package.
+* Replace it with the sidecARM-enabled version supplied in the package.
 
 * Open an AmigaOS Shell.
 
-* Change directory to `SD0:ARM/`
+* Change directory to `SD0:ARM/` or the name you had chosen.
 
 * Start the ARM64 Linux service with:
   `Linux linux-arm64.img sidecarm.dtb initramfs.cpio.gz armblk0.img`
@@ -78,14 +78,9 @@ https://github.com/Telefonorosso/sidecARM/releases/download/1.2/sidecARM1.2.zip
 
 * Bring the `armnet` interface online.
 
-* Return to the graphical console by re-launching `ArmTerm -fb`
+* In the Amiga Shell test ARMNET connectivity with `ping 10.68.0.2`
 
-* Verify the Amiga/Linux link with:
-  `ping -c3 10.68.0.1`
-
-* Press `CTRL+ESC` again.
-
-* You can now connect to Linux from AmigaOS using:
+* You may now connect to Linux from AmigaOS using:
   `Miami:MiamiTelnet 10.68.0.2`
 
 * To reach Linux directly from Windows, open Command Prompt as Administrator.
