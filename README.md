@@ -23,7 +23,7 @@ The current sidecARM POC provides:
 - MiamiDX integration
 - ArmTerm local console
 - normal Alpine package management
-- GRAPHICAL ZERO-COPY FRAMEBUFFER CONSOLE 
+- **GRAPHICAL ZERO-COPY FRAMEBUFFER CONSOLE** 
 - Telnet access over ARMNET
 - SSH access over ARMNET
 - read/write access to AmigaOS files through Fitz
