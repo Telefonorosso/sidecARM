@@ -298,6 +298,38 @@ Do not assume that the current sidecARM modifications can be applied unchanged t
 
 ---
 
+## Resizing the root disk image
+
+The default `armblk0.img` can be enlarged if you need more space for the Linux root filesystem.
+
+First, shut down sidecARM and connect the SD card to Windows.
+
+From an Administrator PowerShell, enlarge `armblk0.img` to 512 MB:
+
+```powershell
+fsutil file seteof X:\ARM\armblk0.img 536870912
+```
+
+Replace `X:` with the drive letter assigned to the PiStorm SD card.
+
+After enlarging the image file, boot sidecARM normally.
+
+Inside Linux, install the required ext filesystem utilities:
+
+```sh
+apk add e2fsprogs-extra
+```
+
+Then expand the filesystem to use the newly available space:
+
+```sh
+resize2fs /dev/armblk0
+```
+
+The root filesystem will then use the full size of the enlarged `armblk0.img`.
+
+---
+
 # Step by step installation
 
 (https://github.com/Telefonorosso/sidecARM/blob/main/installation.md)
