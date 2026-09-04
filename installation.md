@@ -100,7 +100,7 @@
 * Use either Telnet or SSH (root / alpine)
 
 * To access Amiga files from Linux install Fitz on the Amiga side:
-  `https://aminet.net/package/comm/tcp/Fitz`
+  https://aminet.net/package/comm/tcp/Fitz
 
 * Amiga: `fitz serve SDH0:`
 
