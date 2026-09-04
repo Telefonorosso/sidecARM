@@ -14,7 +14,7 @@
 
 * Extract `sidecARM1.2.zip` to your desktop.
 
-* Inside the `bundle` directory, extract `armblk0.7z`.
+* Inside the `bundle` directory, extract `armblk0.7z`
 
 * If needed, download 7-Zip from:
   https://www.7-zip.org/download.html
