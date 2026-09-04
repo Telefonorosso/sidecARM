@@ -22,7 +22,7 @@
 
 * You may rename the `bundle` directory to `ARM` if you wish.
 
-* Make a backup copy of the Emu68 kernel image currently used by your system!
+* **Make a backup copy of the Emu68 kernel image currently used by your system!**
 
 * Replace it with the supplied `Emu68.img.gz`, or modify `config.txt` so that Emu68 points to the supplied kernel image.
 
@@ -33,14 +33,14 @@
 * Copy the supplied `armnet.device` to:
   `DEVS:Networks/`
 
-* Make a backup copy of:
-  `Miami:WIFIPI.default`
+* **Make a backup copy of:
+  `Miami:WIFIPI.default`**
 
 * Replace it with the sidecARM version supplied in the package.
 
 * Open an AmigaOS Shell.
 
-* Change directory to `SD0:ARM`
+* Change directory to `SD0:ARM/`
 
 * Start the ARM64 Linux service with:
   `Linux linux-arm64.img sidecarm.dtb initramfs.cpio.gz armblk0.img`
@@ -71,7 +71,7 @@
 * Verify the Amiga/Linux link with:
   `ping -c3 10.68.0.1`
 
-* Press `Ctrl+Esc` again.
+* Press `CTRL+ESC` again.
 
 * You can now connect to Linux from AmigaOS using:
   `Miami:MiamiTelnet 10.68.0.2`
@@ -83,7 +83,7 @@
 
 * Replace `<AMIGA_IP>` with the actual address of your Amiga.
 
-* The `-p` option makes the Windows route persistent. Without it, the route must be added again after rebooting Windows.
+* **The `-p` option makes the Windows route persistent. Without it, the route must be added again after rebooting Windows.**
 
 * You can now connect from Windows using PuTTY to:
   `10.68.0.2`
@@ -95,9 +95,11 @@
 
 * Amiga: `fitz serve SDH0:`
 
-* Linux `fitz-mount 10.68.0.1 /mnt/amiga/`
+* Linux: `fitz-mount 10.68.0.1 /mnt/amiga/`
 
 * `nano /mnt/amiga/s/Startup-Sequence`
+
+* CTRL+X
 
 * When you want to go back to your normal life:
 
@@ -105,7 +107,8 @@
 
 * Stop fitz by pressing CTRL+C.
 
-* Cleanly turn off Linux:
-  `endcli` (I know, it's confusing)
+* Cleanly shut off Linux:
+  `endcli`
+  (I know, it's confusing)
 
 * Go back to your normal life.
