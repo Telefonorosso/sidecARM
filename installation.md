@@ -3,8 +3,10 @@
 * Pistorm CLASSIC (Amiga 600 or 1200)
 * Raspberry Pi3A+
 * AmigaOS 3.1
-* MiamiDX
-* (without MiamiDX you will be bored very soon with sidecARM...)
+* This guide is based on a standard Emu68-Imager installation with Miami
+* You will need to unlock your Miami to the DELUXE version!
+* https://eab.abime.net/attachment.php?attachmentid=7762&d=1105049447
+* (without MiamiDX you will be very soon bored with sidecARM...)
 
 
 ## Step-by-step installation
