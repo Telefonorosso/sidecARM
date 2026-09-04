@@ -6,7 +6,7 @@
 * This guide is based on a standard Emu68-Imager installation with Miami
 * You will need to unlock your Miami to the DELUXE version!
 * https://eab.abime.net/showthread.php?t=16697&highlight=miami+keys
-* (copy the 3 files in miami:)
+* (copy the 3 keyfiles in miami:)
 * (without MiamiDX you will be very soon bored with sidecARM...)
 
 
