@@ -1,4 +1,4 @@
-## PRERQUISITES
+## PREREQUISITES
 
 * Pistorm CLASSIC (Amiga 600 or 1200)
 * Raspberry Pi3A+
