@@ -298,7 +298,7 @@ Do not assume that the current sidecARM modifications can be applied unchanged t
 
 ---
 
-## Resizing the root disk image
+# Resizing the root disk image
 
 The default `armblk0.img` can be enlarged if you need more space for the Linux root filesystem.
 
