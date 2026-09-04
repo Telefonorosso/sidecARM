@@ -3,7 +3,7 @@
 * Pistorm CLASSIC (Amiga 600 or 1200)
 * Raspberry Pi3A+
 * AmigaOS 3.1
-* This prject is based on this release of Emu68:
+* sidecARM is based on this release of Emu68:
 * https://github.com/michalsc/Emu68/releases/tag/v1.1.0-alpha.1
 * You will need to unlock your Miami to the DELUXE version!
 * https://eab.abime.net/showthread.php?t=16697&highlight=miami+keys
