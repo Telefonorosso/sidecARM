@@ -1,0 +1,24 @@
+TOOLPREFIX ?= m68k-amigaos-
+CC         := $(TOOLPREFIX)gcc
+OBJDUMP    := $(TOOLPREFIX)objdump
+NDKINC     ?= /opt/amiga/m68k-amigaos/ndk-include
+
+TARGET = armnet.device
+CFLAGS = -m68000 -Os -Wall -Wextra -Wno-volatile-register-var \
+         -fomit-frame-pointer -fno-builtin -noixemul -I$(NDKINC)
+LDFLAGS = -nostdlib -nostartfiles -noixemul -Wl,-Map=$(TARGET).map
+
+all: $(TARGET) armnet-probe
+
+$(TARGET): armnet.device.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(OBJDUMP) -D $@ > $(TARGET).disasm
+
+armnet.device.o: armnet.device.c armnet_shm.h
+	$(CC) $(CFLAGS) -c -o $@ armnet.device.c
+
+armnet-probe: armnet-probe.c armnet_shm.h
+	$(CC) -m68000 -Os -noixemul -I$(NDKINC) -o $@ armnet-probe.c
+
+clean:
+	rm -f *.o armnet.device armnet.device.map armnet.device.disasm armnet-probe

@@ -1,0 +1,8 @@
+config FB_ARMFB
+	bool "PiStorm/Emu68 shared-RAM framebuffer"
+	depends on FB && OF
+	select FB_SYSMEM_HELPERS
+	default n
+	help
+	  Exposes an Emu68 shared-memory region as /dev/fb0 for the
+	  sidecARM Linux service. The initial mode is 800x600 RGB565.

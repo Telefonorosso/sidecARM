@@ -1,0 +1,6 @@
+config ARMBLK
+	tristate "PiStorm/Emu68 ARM-Amiga shared-RAM block device"
+	depends on OF && BLOCK
+	help
+	  Expose an AmigaOS-hosted image file as /dev/armblk0 through
+	  the Emu68 ARM-service shared RAM transport.

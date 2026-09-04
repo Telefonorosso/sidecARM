@@ -1,0 +1,25 @@
+--- a/drivers/irqchip/irq-bcm2836.c
++++ b/drivers/irqchip/irq-bcm2836.c
+@@ -47,14 +47,14 @@ static void bcm2836_arm_irqchip_mask_timer_irq(struct irq_data *d)
+ {
+ 	bcm2836_arm_irqchip_mask_per_cpu_irq(LOCAL_TIMER_INT_CONTROL0,
+ 					     d->hwirq - LOCAL_IRQ_CNTPSIRQ,
+-					     smp_processor_id());
++					     1); /* POC: physical core1 */
+ }
+ 
+ static void bcm2836_arm_irqchip_unmask_timer_irq(struct irq_data *d)
+ {
+ 	bcm2836_arm_irqchip_unmask_per_cpu_irq(LOCAL_TIMER_INT_CONTROL0,
+ 					       d->hwirq - LOCAL_IRQ_CNTPSIRQ,
+-					       smp_processor_id());
++					       1); /* POC: physical core1 */
+ }
+@@ -165,7 +165,7 @@ static void
+ __exception_irq_entry bcm2836_arm_irqchip_handle_irq(struct pt_regs *regs)
+ {
+-	int cpu = smp_processor_id();
++	int cpu = 1; /* POC: Linux logical CPU0 runs on physical core1 */
+ 	u32 stat;
+ 
+ 	stat = readl_relaxed(intc.base + LOCAL_IRQ_PENDING0 + 4 * cpu);
