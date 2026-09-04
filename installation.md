@@ -7,8 +7,7 @@
 * https://github.com/michalsc/Emu68/releases/tag/v1.1.0-alpha.1
 * You will need to unlock your Miami to the DELUXE version!
 * https://eab.abime.net/showthread.php?t=16697&highlight=miami+keys
-* (copy the 3 keyfiles in miami:)
-* (without MiamiDX you will be very soon bored with sidecARM...)
+* Without MiamiDX you will be very soon bored with sidecARM
 
 
 ## Step-by-step installation
