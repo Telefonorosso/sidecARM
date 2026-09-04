@@ -23,6 +23,7 @@ The current sidecARM POC provides:
 - MiamiDX integration
 - ArmTerm local console
 - normal Alpine package management
+- GRAPHICAL ZERO-COPY FRAMEBUFFER CONSOLE 
 - Telnet access over ARMNET
 - SSH access over ARMNET
 - read/write access to AmigaOS files through Fitz
@@ -93,16 +94,10 @@ Extract the supplied archive and copy `armblk0.img` to the `EMU68BOOT` partition
 
 **ArmTerm should be the first test performed after starting Linux.**
 
-Start Linux from AmigaOS, then wait approximately:
+Start Linux from AmigaOS, then launch:
 
 ```text
-15-20 seconds
-```
-
-before launching:
-
-```text
-ArmTerm
+ArmTerm -fb
 ```
 
 ArmTerm provides a direct interactive Linux console through shared memory and does **not** require ARMNET or MiamiDX networking.
@@ -289,11 +284,11 @@ The repository contains the files required for the tested proof of concept, incl
 - `ArmTerm`
 - `armnet.device`
 - ARM64 Linux kernel
-- device tree
+- device tree DTB file
 - Alpine boot environment
-- prepared `/dev/armblk0` Linux system disk in ZIP format
+- prepared `/dev/armblk0` Linux system disk in 7Z format
 - ARMNET support
-- modified `WIFIPI.default.miami` configuration
+- modified `WIFIPI.default` configuration
 
 The supplied Emu68 build is based on:
 
@@ -307,9 +302,7 @@ Do not assume that the current sidecARM modifications can be applied unchanged t
 
 # Step by step installation
 
-**TODO — STEP BY STEP INSTALLATION**
-
-This section will contain the complete installation procedure from a standard PiStorm/Emu68 setup to the first successful sidecARM boot.
+(https://github.com/Telefonorosso/sidecARM/blob/main/installation.md)
 
 ---
 
@@ -318,16 +311,13 @@ This section will contain the complete installation procedure from a standard Pi
 For the current POC, test components in this order:
 
 ```text
-1. Boot AmigaOS with the supplied Emu68
+1. Boot AmigaOS with the supplied Emu68 kernel
 2. Start Linux
-3. Wait 15-20 seconds
-4. Run ArmTerm
-5. Verify the Linux shell
-6. Verify /dev/armblk0
-7. Load/use the supplied WIFIPI.default.miami configuration
-8. Test ARMNET
-9. Test SSH
-10. Test Fitz
+3. Run ArmTerm -fb
+4. Load/use the supplied WIFIPI.default.miami configuration
+5. Test ARMNET
+6. Test SSH
+7. Test Fitz
 ```
 
 ArmTerm deliberately comes before networking: it provides the simplest possible proof that Linux itself has booted correctly.
