@@ -5,7 +5,7 @@
 * AmigaOS 3.1
 * This guide is based on a standard Emu68-Imager installation with Miami
 * You will need to unlock your Miami to the DELUXE version!
-* https://eab.abime.net/attachment.php?attachmentid=7762&d=1105049447
+* https://eab.abime.net/showthread.php?t=16697&highlight=miami+keys
 * (without MiamiDX you will be very soon bored with sidecARM...)
 
 
