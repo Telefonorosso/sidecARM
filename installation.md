@@ -3,20 +3,21 @@
 * Pistorm CLASSIC (Amiga 600 or 1200)
 * Raspberry Pi3A+
 * AmigaOS 3.1
-* MiamiDX 
+* MiamiDX
+* (without MiamiDX you will be bored very soon with sidecARM...)
 
 
 ## Step-by-step installation
 
 * Download the sidecARM 1.2 release package:
-  `https://github.com/Telefonorosso/sidecARM/releases/download/1.0/sidecARM1.2.zip`
+  https://github.com/Telefonorosso/sidecARM/releases/download/1.0/sidecARM1.2.zip
 
 * Extract `sidecARM1.2.zip` to your desktop.
 
 * Inside the `bundle` directory, extract `armblk0.7z`.
 
 * If needed, download 7-Zip from:
-  `https://www.7-zip.org/download.html`
+  https://www.7-zip.org/download.html
 
 * After extraction, you should have a 256 megabytes `armblk0.img` file.
 
