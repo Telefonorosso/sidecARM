@@ -17,15 +17,13 @@ Current tested Emu68 baseline:
 The current sidecARM POC provides:
 
 - ARM64 Alpine Linux running alongside AmigaOS
-- Linux running on physical Cortex-A53 CPU1
+- regular Alpine package management ("apk")
 - a real Linux root filesystem on `/dev/armblk0`
-- shared-memory networking through ARMNET
+- TCP/IP networking through ARMNET
 - MiamiDX integration
-- ArmTerm local console
-- normal Alpine package management
+- Local console
 - **GRAPHICAL ZERO-COPY FRAMEBUFFER CONSOLE** 
-- Telnet access over ARMNET
-- SSH access over ARMNET
+- Telnet / SSH access
 - read/write access to AmigaOS files through Fitz
 
 The current target platform is:
