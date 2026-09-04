@@ -164,7 +164,7 @@ Netmask: 255.255.255.252
 The repository includes a modified:
 
 ```text
-WIFIPI.default.miami
+WIFIPI.default
 ```
 
 configuration compatible with sidecARM.
