@@ -277,7 +277,7 @@ Fitz
 
 The repository contains the files required for the tested proof of concept, including:
 
-- sidecARM-enabled `Emu68.img`
+- sidecARM-enabled `Emu68.img.gz`
 - AmigaOS `Linux` launcher
 - ARM64 Linux kernel
 - device tree DTB file
