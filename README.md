@@ -280,10 +280,11 @@ The repository contains the files required for the tested proof of concept, incl
 - sidecARM-enabled `Emu68.img`
 - AmigaOS `Linux` launcher
 - `ArmTerm`
+- `ArmFb`
 - `armnet.device`
 - ARM64 Linux kernel
 - device tree DTB file
-- Alpine boot environment
+- Alpine initramfs environment
 - prepared `/dev/armblk0` Linux system disk in 7Z format
 - ARMNET support
 - modified `WIFIPI.default` configuration
