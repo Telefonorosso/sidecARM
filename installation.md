@@ -13,9 +13,9 @@
 ## Step-by-step installation
 
 * Download the sidecARM 1.2 release package:
-https://github.com/Telefonorosso/sidecARM/releases/download/1.2/sidecARM1.2.zip
+  https://github.com/Telefonorosso/sidecARM/releases/download/1.4/sidecARM1.4.zip
 
-* Extract `sidecARM1.2.zip` to your desktop.
+* Extract `sidecARM1.4.zip` to your desktop.
 
 * Inside the `bundle` directory, extract `armblk0.7z`
 
@@ -60,6 +60,9 @@ https://github.com/Telefonorosso/sidecARM/releases/download/1.2/sidecARM1.2.zip
 * Switch to the graphical console!!!
   `ArmTerm -fb`
 
+* ...or use the windowed version:
+  `ArmFb`
+
 * Wait the boot process to complete, then login with root / alpine
 
 * From the Linux shell, try a few basic commands to verify that the system is running correctly:
@@ -68,7 +71,7 @@ https://github.com/Telefonorosso/sidecARM/releases/download/1.2/sidecARM1.2.zip
   `whoami`
   `ls`
 
-* Go back to Workbench by pressing CTRL+ESC!!!
+* Go back to Workbench by pressing CTRL+ESC!!! (only if fullscreen)
 
 * Run the PiStorm supplied `ONLINE` helper to bring up WiFi
 
@@ -115,7 +118,7 @@ https://github.com/Telefonorosso/sidecARM/releases/download/1.2/sidecARM1.2.zip
 * Stop fitz by pressing CTRL+C.
 
 * Cleanly shut off Linux:
-  `endcli`
+  `reboot`
   (I know, it's confusing)
 
 * Go back to your normal life.
