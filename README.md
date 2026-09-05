@@ -22,7 +22,7 @@ The current sidecARM POC provides:
 - TCP/IP networking through ARMNET
 - MiamiDX integration
 - Local console
-- **GRAPHICAL ZERO-COPY FRAMEBUFFER CONSOLE** 
+- **GRAPHICAL ZERO-COPY FRAMEBUFFER WINDOWED CONSOLE** 
 - Telnet / SSH access
 - read/write access to AmigaOS files through Fitz
 
