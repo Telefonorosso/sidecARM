@@ -36,6 +36,8 @@
 
 * **Make a backup copy of the Emu68 kernel image currently used by your system!**
 
+* **Make sure you are using Emu68 1.1 Alpha!**
+
 * Replace it with the supplied `Emu68.img.gz`, or modify `config.txt` so that Emu68 points it.
 
 * Safely eject the SD card from Windows.
