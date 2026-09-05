@@ -12,7 +12,7 @@
 
 ## Step-by-step installation
 
-* Download the sidecARM 1.2 release package:
+* Download the sidecARM 1.4 release package:
   https://github.com/Telefonorosso/sidecARM/releases/download/1.4/sidecARM1.4.zip
 
 * Extract `sidecARM1.4.zip` to your desktop.
